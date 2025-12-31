@@ -36,7 +36,7 @@ CREATE TABLE Mitarbeiter (
     FOREIGN KEY (hotel_adresse) REFERENCES Hotel(Adresse)
 );
 
--- Tabelle für das Restaurant
+
 CREATE TABLE Restaurant (
     Restaurant_id INT PRIMARY KEY AUTO_INCREMENT,
     Name VARCHAR(100) NOT NULL,
