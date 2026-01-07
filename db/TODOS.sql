@@ -1,43 +1,61 @@
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(250) NOT NULL UNIQUE,
+    password VARCHAR(250) NOT NULL
+);
+
+CREATE TABLE todos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    content VARCHAR(100),
+    due DATETIME,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
 CREATE TABLE Hotel (
     Adresse INT AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(250) NOT NULL,
     Events VARCHAR(250) NOT NULL
 );
 
-CREATE TABLE Zimmer ( 
+CREATE TABLE Zimmer (
     Zimmer_Nr INT AUTO_INCREMENT PRIMARY KEY,
-    Anzahl_Gäste INT,
+    hotel_adresse INT NOT NULL,
+    Anzahl_Gaeste INT,
     Preis_pro_Nacht NUMERIC(7,2),
     Zimmer_Art VARCHAR(150),
-    Anzahl_Nächte INT,
+    Anzahl_Naechte INT,
     FOREIGN KEY (hotel_adresse) REFERENCES Hotel(Adresse)
 );
 
 CREATE TABLE Kunde (
     kunden_id INT AUTO_INCREMENT PRIMARY KEY,
-    Handynummer VARCHAR(13) NOT NULL UNIQUE
+    Handynummer VARCHAR(13) NOT NULL UNIQUE,
     Name VARCHAR(100),
-    Kreditkarteninformation VARCHAR (100) NOT NULL UNIQUE,
+    Kreditkarteninformation VARCHAR(100) NOT NULL UNIQUE,
     email VARCHAR(50) NOT NULL UNIQUE
 );
 
 CREATE TABLE Buchung (
-    id INT PRIMARY KEY AUTO AUTO_INCREMENT,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     kunden_id INT,
-    Zimmer_Nr INT
-    Buchungsdatum DATE DEFAULT CURRENT_DATE 
+    Zimmer_Nr INT,
+    Buchungsdatum DATE,
     FOREIGN KEY (kunden_id) REFERENCES Kunde(kunden_id),
     FOREIGN KEY (Zimmer_Nr) REFERENCES Zimmer(Zimmer_Nr)
-)
+);
+
+
 CREATE TABLE Mitarbeiter (
     Mitarbeiter_id INT AUTO_INCREMENT PRIMARY KEY,
-    Name VARCHAR (50),
-    Rolle VARCHAR(100)
+    hotel_adresse INT NOT NULL,
+    Name VARCHAR(50),
+    Rolle VARCHAR(100),
     FOREIGN KEY (hotel_adresse) REFERENCES Hotel(Adresse)
 );
 
 CREATE TABLE Restaurant (
-    Restaurant_id INT PRIMARY KEY AUTO_INCREMENT,
+    Restaurant_id INT AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(100) NOT NULL,
     Stockort VARCHAR(50),
     Oeffnungszeiten VARCHAR(50)
@@ -47,14 +65,14 @@ CREATE TABLE Speise (
     Speise_id INT AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(100) NOT NULL,
     Preis NUMERIC(6,2) NOT NULL,
-    Art VARCHAR(50) --Vorspeise, Hauptgericht oder Dessert?
+    Art VARCHAR(50)
 );
 
 CREATE TABLE Getraenk (
     Getraenk_id INT AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(100) NOT NULL,
     Preis NUMERIC(6,2) NOT NULL,
-    Art VARCHAR(50) -- Softdrink, Alkoholisches Getränk
+    Art VARCHAR(50)
 );
 
 CREATE TABLE Bestellung (
@@ -64,8 +82,7 @@ CREATE TABLE Bestellung (
     Getraenk_id INT,
     FOREIGN KEY (restaurant_id) REFERENCES Restaurant(restaurant_id),
     FOREIGN KEY (speise_id) REFERENCES Speise(speise_id),
-    FOREIGN KEY (getraenk_id) REFERENCES Getraenk(getraenk_id),
-    
+    FOREIGN KEY (getraenk_id) REFERENCES Getraenk(getraenk_id)
 );
 
 CREATE TABLE Parkplatz (
